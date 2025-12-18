@@ -4,16 +4,19 @@ import {MapPin} from 'lucide-react'
 import {FaCaretDown} from 'react-icons/fa'
 import { IoCartOutline } from "react-icons/io5";
 import { SignedIn, SignedOut, UserButton, SignInButton } from '@clerk/clerk-react';
+ 
 
 const Navbar = ({location}) => {
-   
+       
+    //  const [openNav, setOpenNav] = useState(false)        
+
   return (
     <div className='bg-white py-3 shadow-2xl'>
      <div className='max-w-6xl mx-auto flex justify-between items-center'>
 
         {/* logo section */}
        <div className='flex gap-7 items-center'>
-         <Link to={'/'}> <h1 className='font-bold text-3xl'><span className='text-red-500 font-serif'>Z</span>aptro</h1>
+         <Link to={'/'}> <h1 className='font-bold text-3xl'><span className='text-red-500 font-serif'>A</span>aptro</h1>
          </Link>
        <div className='flex gap-1 cursor-pointer items-center text-gray-700'>
          <MapPin className="text-red-500" />
@@ -43,7 +46,7 @@ const Navbar = ({location}) => {
           <span className='bg-red-500 px-2 rounded-full absolute -top-3 -right-3  text-white'>0</span>
           </Link>
 
-          <div className='ml-6'>
+          <div className='ml-10'>
              <SignedOut>
                 <SignInButton className="bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer"/>
            </SignedOut>
