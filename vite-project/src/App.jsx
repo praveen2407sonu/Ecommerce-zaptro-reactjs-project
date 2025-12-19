@@ -8,6 +8,7 @@ import Products from './pages/Products'
 import About from './pages/About'
 import Cart from './pages/Cart'
 import axios from 'axios'
+import Footer from './components/Footer'
 
 const App = () => {
   const [location, setLocation] = useState()
@@ -51,7 +52,7 @@ const App = () => {
              <Route path='/cart' element={<Cart/>}></Route>
              
        </Routes>
-
+     <Footer/>
     </BrowserRouter>
 
   )
