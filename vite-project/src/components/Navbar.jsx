@@ -23,7 +23,7 @@ const Navbar = ({ location }) => {
         <div className='flex gap-7 items-center'>
           <Link to={'/'}>
             <h1 className='font-bold text-3xl'>
-              <span className='text-red-500 font-serif'>A</span>aptro
+              <span className='text-red-500 font-serif'>A</span>zptro
             </h1>
           </Link>
 
