@@ -20,9 +20,15 @@ const Category = () => {
     fetchAllProducts()
   }, [])
 
+  // const handleCategoryClick = (category) => {
+  //   navigate(`/category/${category}`)
+  // }
+
+
   const handleCategoryClick = (category) => {
-    navigate(`/category/${category}`)
-  }
+  navigate(`/category/${encodeURIComponent(category.toLowerCase())}`)
+}
+
 
   return (
     <div className='bg-[#101829]'>

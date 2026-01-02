@@ -5,33 +5,28 @@ import { ChevronLeft } from 'lucide-react'
 import ProductListView from '../components/ProductListView'
 
 const CategoryProduct = () => {
-  const [searchData, setSearchData] = useState([])
+  const [products, setProducts] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
   const { category } = useParams()
   const navigate = useNavigate()
 
   const getFilterData = async () => {
-    setLoading(true)
-    setError(null)
     try {
+      setLoading(true)
+      setError(null)
+
       const res = await axios.get(
-        `https://fakestoreapi.in/api/products/category?type=${category}`
+        `https://fakestoreapi.com/products/category/${category}`
       )
 
-      console.log('CATEGORY DATA 👉', res.data)
+      console.log('CATEGORY PRODUCTS 👉', res.data)
+      setProducts(res.data)
 
-      if (res.data && res.data.products && Array.isArray(res.data.products)) {
-        setSearchData(res.data.products)
-      } else {
-        setError("No products found in this category")
-        setSearchData([])
-      }
-
-    } catch (error) {
-      console.log(error)
-      setError("Failed to fetch products. Please try again.")
-      setSearchData([])
+    } catch (err) {
+      console.error(err)
+      setError('Failed to fetch products. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -42,63 +37,53 @@ const CategoryProduct = () => {
     window.scrollTo(0, 0)
   }, [category])
 
+  /* ---------------- LOADING ---------------- */
   if (loading) {
     return (
-      <div className='flex flex-col items-center justify-center h-[400px]'>
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mb-4"></div>
-        <p>Loading products for {category}...</p>
+      <div className='flex justify-center items-center h-[400px]'>
+        <div className='animate-spin h-12 w-12 border-b-2 border-red-500 rounded-full'></div>
       </div>
     )
   }
 
+  /* ---------------- ERROR ---------------- */
   if (error) {
     return (
-      <div className='max-w-6xl mx-auto mt-10 mb-10 px-4'>
+      <div className='text-center mt-20'>
+        <p className='text-red-500 font-semibold'>{error}</p>
         <button
-          onClick={() => navigate(-1)}
-          className='bg-gray-800 mb-5 text-white px-3 py-1 rounded-md flex gap-1 items-center'
+          onClick={getFilterData}
+          className='mt-4 bg-red-500 text-white px-4 py-2 rounded-md'
         >
-          <ChevronLeft /> Back
+          Retry
         </button>
-        <div className='text-center py-10'>
-          <p className='text-red-500 text-lg font-semibold'>{error}</p>
-          <button 
-            onClick={getFilterData}
-            className='mt-4 bg-red-500 text-white px-4 py-2 rounded-md'
-          >
-            Retry
-          </button>
-        </div>
       </div>
     )
   }
 
+  /* ---------------- SUCCESS ---------------- */
   return (
-    <div>
-      <div className='max-w-6xl mx-auto mt-10 mb-10 px-4'>
-        
-        <button
-          onClick={() => navigate(-1)}
-          className='bg-gray-800 mb-5 text-white px-3 py-1 rounded-md flex gap-1 items-center'
-        >
-          <ChevronLeft /> Back
-        </button>
+    <div className='max-w-6xl mx-auto mt-10 mb-10 px-4'>
+      <button
+        onClick={() => navigate(-1)}
+        className='bg-gray-800 mb-5 text-white px-3 py-1 rounded-md flex items-center gap-1'
+      >
+        <ChevronLeft /> Back
+      </button>
 
-        <h1 className='text-2xl font-bold mb-6 capitalize'>Category: {category} ({searchData.length} products)</h1>
+      <h1 className='text-2xl font-bold mb-6 capitalize'>
+        Category: {category} ({products.length} products)
+      </h1>
 
-        {searchData.length > 0 ? (
-          <div className='space-y-4'>
-            {searchData.map((product) => (
-              <ProductListView key={product.id} product={product} />
-            ))}
-          </div>
-        ) : (
-          <div className='text-center py-10'>
-            <p className='text-gray-600'>No products found in this category.</p>
-          </div>
-        )}
-
-      </div>
+      {products.length > 0 ? (
+        <div className='space-y-4'>
+          {products.map(product => (
+            <ProductListView key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <p className='text-center text-gray-600'>No products found</p>
+      )}
     </div>
   )
 }
